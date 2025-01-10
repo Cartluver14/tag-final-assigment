@@ -11,10 +11,15 @@ namespace tag_final_assigment
         KeyboardState keyboardState;
         Texture2D pigTexture, pigLeftTexture, pigRightTexture, pigUpTexture, pigDownTexture;
         Texture2D samTexture, samLeftTexture, samRightTexture, samUpTexture, samDowntexture;
+        Texture2D walltexture;
         Rectangle pigLocation;
+        Rectangle wallrect;
         Rectangle samLocation;
+
+       
         Vector2 pigSpeed;
         Vector2 samSpeed;
+        Vector2 wallSpeed;
         Texture2D groundTexture;
         Rectangle groundRect;
         Rectangle window;
@@ -29,10 +34,11 @@ namespace tag_final_assigment
 
         protected override void Initialize()
         {
-            pigLocation = new Rectangle(300, 300, 80, 80);
-            samLocation = new Rectangle(25, 25, 50, 50);
+            pigLocation = new Rectangle(300, 300, 50, 50);
+            samLocation = new Rectangle(25, 25, 40, 40);
             groundRect = new Rectangle(0, 825, 1250, 75);
             window = new Rectangle(0, 0, 1250, 900);
+            wallrect = new Rectangle(0, 0, 30, 100);
             _graphics.PreferredBackBufferWidth = window.Width;
             _graphics.PreferredBackBufferHeight = window.Height;
             _graphics.ApplyChanges();
@@ -50,15 +56,18 @@ namespace tag_final_assigment
             pigDownTexture = Content.Load<Texture2D>("pig down");
             pigLeftTexture = Content.Load<Texture2D>("pig left");
             pigRightTexture = Content.Load<Texture2D>("pig right");
+            walltexture = Content.Load<Texture2D>("wall");
 
             pigTexture = pigRightTexture;
 
             samUpTexture = Content.Load<Texture2D>("sam up");
-            samDownTexture = Content.Load<Texture2D>("sam down");
+            samDowntexture = Content.Load<Texture2D>("sam down");
             samLeftTexture = Content.Load<Texture2D>("sam left");
             samRightTexture = Content.Load<Texture2D>("sam right");
 
             samTexture = samRightTexture;
+
+            
 
 
 
@@ -105,26 +114,38 @@ namespace tag_final_assigment
             }
             if (keyboardState.IsKeyDown(Keys.S))
             { 
-                bluesquareSpeed.Y += 6; 
+                samSpeed.Y += 6;
+                samTexture = samDowntexture;
             }
             if (keyboardState.IsKeyDown(Keys.A)) 
             { 
-                bluesquareSpeed.X -= 6; 
+                samSpeed.X -= 6; 
+                samTexture = samLeftTexture;
             }
             if (keyboardState.IsKeyDown(Keys.D)) 
             { 
-                bluesquareSpeed.X += 6; 
+                samSpeed.X += 6; 
+                samTexture = samRightTexture;
             }
-            bluesquareLocation.Offset(bluesquareSpeed);
+            samLocation.Offset(samSpeed);
 
             if (pigLocation.Intersects(groundRect))
             {
                 pigLocation.Offset(-pigSpeed);
             }
-            if (bluesquareLocation.Intersects(groundRect))
+            if (samLocation.Intersects(groundRect))
             {
 
-                bluesquareLocation.Offset(-bluesquareSpeed);
+                samLocation.Offset(-samSpeed);
+            }
+            if (pigLocation.Intersects(wallrect))
+            {
+                pigLocation.Offset(-pigSpeed);
+            }
+            if (samLocation.Intersects(wallrect))
+            {
+
+                samLocation.Offset(-samSpeed);
             }
 
 
@@ -143,8 +164,9 @@ namespace tag_final_assigment
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
             _spriteBatch.Draw(pigTexture, pigLocation, Color.White);
-            _spriteBatch.Draw(bluesquareTexture, bluesquareLocation, Color.White);
+            _spriteBatch.Draw(samTexture, samLocation, Color.White);
             _spriteBatch.Draw(groundTexture, groundRect, Color.White);
+            _spriteBatch.Draw(walltexture,  wallrect, Color.White); 
             _spriteBatch.End();
 
 
