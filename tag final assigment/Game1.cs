@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace tag_final_assigment
 {
@@ -13,8 +14,9 @@ namespace tag_final_assigment
         Texture2D samTexture, samLeftTexture, samRightTexture, samUpTexture, samDowntexture;
         Texture2D walltexture;
         Rectangle pigLocation;
-        Rectangle wallrect;
+        Rectangle wall1rect,wall2rect,wall3rect,wall4rect; 
         Rectangle samLocation;
+        List<Rectangle> wall;
 
        
         Vector2 pigSpeed;
@@ -38,7 +40,13 @@ namespace tag_final_assigment
             samLocation = new Rectangle(25, 25, 40, 40);
             groundRect = new Rectangle(0, 825, 1250, 75);
             window = new Rectangle(0, 0, 1250, 900);
-            wallrect = new Rectangle(0, 0, 30, 100);
+            wall1rect = new Rectangle(0, 0, -0, 1250);
+            wall2rect = new Rectangle(5, -0, 1250, 10);
+            wall3rect = new Rectangle(1250, 20, 10, 900);
+            wall4rect = new Rectangle(45, 100, 200, 10);
+            wall = new List<Rectangle>();
+            wall.Add(new Rectangle(100, 100, 100, 100));
+
             _graphics.PreferredBackBufferWidth = window.Width;
             _graphics.PreferredBackBufferHeight = window.Height;
             _graphics.ApplyChanges();
@@ -138,15 +146,66 @@ namespace tag_final_assigment
 
                 samLocation.Offset(-samSpeed);
             }
-            if (pigLocation.Intersects(wallrect))
+            if (pigLocation.Intersects(wall1rect))
             {
                 pigLocation.Offset(-pigSpeed);
             }
-            if (samLocation.Intersects(wallrect))
+            if (samLocation.Intersects(wall1rect))
             {
 
                 samLocation.Offset(-samSpeed);
             }
+
+
+
+
+            if (pigLocation.Intersects(wall2rect))
+            {
+                pigLocation.Offset(-pigSpeed);
+            }
+            if (samLocation.Intersects(wall2rect))
+            {
+
+                samLocation.Offset(-samSpeed);
+            }
+
+            if (pigLocation.Intersects(wall3rect))
+            {
+                pigLocation.Offset(-pigSpeed);
+            }
+            if (samLocation.Intersects(wall3rect))
+            {
+
+                samLocation.Offset(-samSpeed);
+            }
+            if (pigLocation.Intersects(wall4rect))
+            {
+                pigLocation.Offset(-pigSpeed);
+            }
+            if (samLocation.Intersects(wall4rect))
+            {
+
+                samLocation.Offset(-samSpeed);
+            }
+            for (int i = 0; i < wall.Count; i++)
+            {
+                if (pigLocation.Intersects(wall[i]))
+                {
+                    pigLocation.Offset(-pigSpeed);
+                }
+
+            }
+            for (int i = 0; i < wall.Count; i++)
+            {
+                if (samLocation.Intersects(wall[i]))
+                {
+                    samLocation.Offset(-samSpeed);
+                }
+
+            }
+
+
+
 
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -166,7 +225,12 @@ namespace tag_final_assigment
             _spriteBatch.Draw(pigTexture, pigLocation, Color.White);
             _spriteBatch.Draw(samTexture, samLocation, Color.White);
             _spriteBatch.Draw(groundTexture, groundRect, Color.White);
-            _spriteBatch.Draw(walltexture,  wallrect, Color.White); 
+            _spriteBatch.Draw(walltexture,  wall1rect, Color.White); 
+            _spriteBatch.Draw(walltexture,wall2rect, Color.White);
+            _spriteBatch.Draw(walltexture,wall3rect, Color.White);
+            _spriteBatch.Draw(walltexture,wall4rect, Color.Red);
+            foreach (Rectangle barrier in wall)
+                _spriteBatch.Draw(walltexture, barrier, Color.Red);
             _spriteBatch.End();
 
 
