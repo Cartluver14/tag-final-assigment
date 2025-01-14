@@ -14,9 +14,11 @@ namespace tag_final_assigment
         Texture2D pigTexture, pigLeftTexture, pigRightTexture, pigUpTexture, pigDownTexture;
         Texture2D samTexture, samLeftTexture, samRightTexture, samUpTexture, samDowntexture;
         Texture2D walltexture;
+        Texture2D portaltexture;
         Rectangle pigLocation;
         Rectangle wall1rect,wall2rect,wall3rect,wall4rect; 
         Rectangle samLocation;
+        Rectangle portal1rect,portal2rect;
         List<Rectangle> wall;
 
        
@@ -38,6 +40,8 @@ namespace tag_final_assigment
         protected override void Initialize()
         {
             pigLocation = new Rectangle(1100, 40, 50, 50);
+            portal1rect = new Rectangle(-15, 740, 100, 100);
+            portal2rect = new Rectangle(1165, 740, 100, 100);
             samLocation = new Rectangle(110, 25, 40, 40);
             groundRect = new Rectangle(0, 825, 1250, 75);
             window = new Rectangle(0, 0, 1250, 900);
@@ -75,6 +79,7 @@ namespace tag_final_assigment
             pigLeftTexture = Content.Load<Texture2D>("pig left");
             pigRightTexture = Content.Load<Texture2D>("pig right");
             walltexture = Content.Load<Texture2D>("wall");
+            portaltexture = Content.Load<Texture2D>("portal");
 
             pigTexture = pigRightTexture;
 
@@ -125,6 +130,34 @@ namespace tag_final_assigment
                 pigTexture = pigRightTexture;
             }
             pigLocation.Offset(pigSpeed);
+
+            if (portal1rect.Contains(pigLocation))
+            {
+                pigLocation.X = 110;
+                pigLocation.Y = 25;
+               
+            }
+            if (portal2rect.Contains(samLocation))
+            {
+                samLocation.X = 1100;
+                samLocation.Y = 40;
+              
+            }
+
+            if (portal2rect.Contains(pigLocation))
+            {
+                pigLocation.X = 1100;
+                pigLocation.Y = 40;
+
+            }
+            if (portal1rect.Contains(samLocation))
+            {
+                samLocation.X = 110;
+                samLocation.Y = 25;
+
+            }
+
+
 
             samSpeed = Vector2.Zero;
             if (keyboardState.IsKeyDown(Keys.W))
@@ -241,6 +274,8 @@ namespace tag_final_assigment
             _spriteBatch.Draw(walltexture,wall2rect, Color.White);
             _spriteBatch.Draw(walltexture,wall3rect, Color.White);
             _spriteBatch.Draw(walltexture,wall4rect, Color.Red);
+            _spriteBatch.Draw(portaltexture,portal1rect, Color.White);
+            _spriteBatch.Draw(portaltexture, portal2rect, Color.White);
             foreach (Rectangle barrier in wall)
                 _spriteBatch.Draw(walltexture, barrier, Color.Red);
             _spriteBatch.End();
