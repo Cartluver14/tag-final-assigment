@@ -10,6 +10,7 @@ namespace tag_final_assigment
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         KeyboardState keyboardState;
+        MouseState mouseState;  
         Texture2D pigTexture, pigLeftTexture, pigRightTexture, pigUpTexture, pigDownTexture;
         Texture2D samTexture, samLeftTexture, samRightTexture, samUpTexture, samDowntexture;
         Texture2D walltexture;
@@ -36,16 +37,25 @@ namespace tag_final_assigment
 
         protected override void Initialize()
         {
-            pigLocation = new Rectangle(300, 300, 50, 50);
-            samLocation = new Rectangle(25, 25, 40, 40);
+            pigLocation = new Rectangle(1100, 40, 50, 50);
+            samLocation = new Rectangle(110, 25, 40, 40);
             groundRect = new Rectangle(0, 825, 1250, 75);
             window = new Rectangle(0, 0, 1250, 900);
             wall1rect = new Rectangle(0, 0, -0, 1250);
             wall2rect = new Rectangle(5, -0, 1250, 10);
             wall3rect = new Rectangle(1250, 20, 10, 900);
-            wall4rect = new Rectangle(45, 100, 200, 10);
+            wall4rect = new Rectangle(60, 100, 200, 10);
             wall = new List<Rectangle>();
-            wall.Add(new Rectangle(100, 100, 100, 100));
+            wall.Add(new Rectangle(985, 105, 200, 10));
+            wall.Add(new Rectangle(260,250, 650, 10));
+            wall.Add(new Rectangle(0, 250, 150, 10));
+            wall.Add(new Rectangle(1030, 250, 300, 10));
+            wall.Add(new Rectangle(60, 400, 150, 10));
+            wall.Add(new Rectangle(300, 400, 650, 10));
+            wall.Add(new Rectangle(1050, 400, 120, 10));
+            wall.Add(new Rectangle(60, 400, 10, 427));
+            wall.Add(new Rectangle(1170, 400, 10, 427));
+
 
             _graphics.PreferredBackBufferWidth = window.Width;
             _graphics.PreferredBackBufferHeight = window.Height;
@@ -88,6 +98,8 @@ namespace tag_final_assigment
 
         protected override void Update(GameTime gameTime)
         {
+            this.Window.Title = $"x = {mouseState.X}, y = {mouseState.Y}";
+            mouseState = Mouse.GetState();
             pigSpeed = new Vector2();
             samSpeed = new Vector2();
             keyboardState = Keyboard.GetState();
