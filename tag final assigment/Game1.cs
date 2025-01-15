@@ -15,14 +15,21 @@ namespace tag_final_assigment
         Texture2D samTexture, samLeftTexture, samRightTexture, samUpTexture, samDowntexture;
         Texture2D walltexture;
         Texture2D portaltexture;
+        Texture2D bushtexture;
+        Texture2D backgroundtexture;
+        Texture2D triangletexture;
         Rectangle pigLocation;
+        Rectangle backgroundrect;
+        Rectangle bushrect;
         Rectangle wall1rect,wall2rect,wall3rect,wall4rect; 
         Rectangle samLocation;
+        Rectangle trianglelocation;
         Rectangle portal1rect,portal2rect;
         List<Rectangle> wall;
 
        
         Vector2 pigSpeed;
+        Vector2 trianglespeed;
         Vector2 samSpeed;
         Vector2 wallSpeed;
         Texture2D groundTexture;
@@ -39,7 +46,10 @@ namespace tag_final_assigment
 
         protected override void Initialize()
         {
+            backgroundrect = new Rectangle(0,0,1250,900);
+            trianglelocation = new Rectangle(1000, 35, 50, 50);
             pigLocation = new Rectangle(1100, 40, 50, 50);
+            bushrect = new Rectangle(450, 170, 300, 300);
             portal1rect = new Rectangle(-15, 740, 100, 100);
             portal2rect = new Rectangle(1165, 740, 100, 100);
             samLocation = new Rectangle(110, 25, 40, 40);
@@ -80,6 +90,10 @@ namespace tag_final_assigment
             pigRightTexture = Content.Load<Texture2D>("pig right");
             walltexture = Content.Load<Texture2D>("wall");
             portaltexture = Content.Load<Texture2D>("portal");
+            bushtexture = Content.Load<Texture2D>("bush");
+            triangletexture = Content.Load<Texture2D>("triangle");
+            backgroundtexture = Content.Load<Texture2D>("background");
+           // backgroundtexture = Content
 
             pigTexture = pigRightTexture;
 
@@ -133,27 +147,27 @@ namespace tag_final_assigment
 
             if (portal1rect.Contains(pigLocation))
             {
-                pigLocation.X = 110;
-                pigLocation.Y = 25;
+                pigLocation.X = 1100;
+                pigLocation.Y = 40;
                
             }
             if (portal2rect.Contains(samLocation))
             {
-                samLocation.X = 1100;
-                samLocation.Y = 40;
+                samLocation.X = 110;
+                samLocation.Y = 25;
               
             }
 
             if (portal2rect.Contains(pigLocation))
             {
-                pigLocation.X = 1100;
-                pigLocation.Y = 40;
+                pigLocation.X = 110;
+                pigLocation.Y = 25;
 
             }
             if (portal1rect.Contains(samLocation))
             {
-                samLocation.X = 110;
-                samLocation.Y = 25;
+                samLocation.X = 1100;
+                samLocation.Y = 40;
 
             }
 
@@ -248,6 +262,8 @@ namespace tag_final_assigment
                 }
 
             }
+            trianglelocation.X = pigLocation.X + 0;
+            trianglelocation.Y = pigLocation.Y + -30;
 
 
 
@@ -267,6 +283,7 @@ namespace tag_final_assigment
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
+            _spriteBatch.Draw(backgroundtexture, backgroundrect, Color.White);
             _spriteBatch.Draw(pigTexture, pigLocation, Color.White);
             _spriteBatch.Draw(samTexture, samLocation, Color.White);
             _spriteBatch.Draw(groundTexture, groundRect, Color.White);
@@ -276,6 +293,9 @@ namespace tag_final_assigment
             _spriteBatch.Draw(walltexture,wall4rect, Color.Red);
             _spriteBatch.Draw(portaltexture,portal1rect, Color.White);
             _spriteBatch.Draw(portaltexture, portal2rect, Color.White);
+            _spriteBatch.Draw(triangletexture, trianglelocation, Color.White);
+            _spriteBatch.Draw(bushtexture,bushrect, Color.White);
+
             foreach (Rectangle barrier in wall)
                 _spriteBatch.Draw(walltexture, barrier, Color.Red);
             _spriteBatch.End();
