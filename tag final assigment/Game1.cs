@@ -14,11 +14,14 @@ namespace tag_final_assigment
         Texture2D pigTexture, pigLeftTexture, pigRightTexture, pigUpTexture, pigDownTexture;
         Texture2D samTexture, samLeftTexture, samRightTexture, samUpTexture, samDowntexture;
         Texture2D walltexture;
+        string whosit;
         Texture2D portaltexture;
         Texture2D bushtexture;
         Texture2D backgroundtexture;
         Texture2D triangletexture;
+        Texture2D textboxtexture;
         Rectangle pigLocation;
+        Rectangle textboxrect;
         Rectangle backgroundrect;
         Rectangle bushrect;
         Rectangle wall1rect,wall2rect,wall3rect,wall4rect; 
@@ -26,6 +29,7 @@ namespace tag_final_assigment
         Rectangle trianglelocation;
         Rectangle portal1rect,portal2rect;
         List<Rectangle> wall;
+        SpriteFont text;
 
        
         Vector2 pigSpeed;
@@ -69,6 +73,7 @@ namespace tag_final_assigment
             wall.Add(new Rectangle(1050, 400, 120, 10));
             wall.Add(new Rectangle(60, 400, 10, 427));
             wall.Add(new Rectangle(1170, 400, 10, 427));
+            whosit = "pig";
 
 
             _graphics.PreferredBackBufferWidth = window.Width;
@@ -93,7 +98,9 @@ namespace tag_final_assigment
             bushtexture = Content.Load<Texture2D>("bush");
             triangletexture = Content.Load<Texture2D>("triangle");
             backgroundtexture = Content.Load<Texture2D>("background");
-           // backgroundtexture = Content
+            text = Content.Load<SpriteFont>("Text");
+
+            // backgroundtexture = Content
 
             pigTexture = pigRightTexture;
 
@@ -262,8 +269,41 @@ namespace tag_final_assigment
                 }
 
             }
-            trianglelocation.X = pigLocation.X + 0;
-            trianglelocation.Y = pigLocation.Y + -30;
+            
+            if (pigLocation.Intersects(samLocation))
+            {
+                if (whosit == "pig")
+                    whosit = "sam";
+                else
+                    whosit = "pig";
+
+
+                
+                        
+            }
+            if (pigLocation.Intersects(samLocation))
+            {
+                pigLocation.Offset(pigSpeed);
+            }
+            if (samLocation.Intersects(pigLocation))
+            {
+                pigLocation.Offset(samSpeed);
+            }
+
+
+
+
+            if (whosit == "pig")
+            {
+                trianglelocation.X = pigLocation.X + 0;
+                trianglelocation.Y = pigLocation.Y + -30;
+            }
+            else if (whosit == "sam")
+            {
+                trianglelocation.X = samLocation.X + 0;
+                trianglelocation.Y = samLocation.Y + -30;
+
+            }
 
 
 
@@ -295,6 +335,7 @@ namespace tag_final_assigment
             _spriteBatch.Draw(portaltexture, portal2rect, Color.White);
             _spriteBatch.Draw(triangletexture, trianglelocation, Color.White);
             _spriteBatch.Draw(bushtexture,bushrect, Color.White);
+            _spriteBatch.DrawString(text,"text",new Vector2(350,830),Color.White);
 
             foreach (Rectangle barrier in wall)
                 _spriteBatch.Draw(walltexture, barrier, Color.Red);
