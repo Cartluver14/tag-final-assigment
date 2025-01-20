@@ -15,6 +15,8 @@ namespace tag_final_assigment
         Texture2D samTexture, samLeftTexture, samRightTexture, samUpTexture, samDowntexture;
         Texture2D walltexture;
         string whosit;
+        float seconds;
+      
         Texture2D portaltexture;
         Texture2D bushtexture;
         Texture2D backgroundtexture;
@@ -58,6 +60,7 @@ namespace tag_final_assigment
             portal2rect = new Rectangle(1165, 740, 100, 100);
             samLocation = new Rectangle(110, 25, 40, 40);
             groundRect = new Rectangle(0, 825, 1250, 75);
+            seconds = 0;
             window = new Rectangle(0, 0, 1250, 900);
             wall1rect = new Rectangle(0, 0, -0, 1250);
             wall2rect = new Rectangle(5, -0, 1250, 10);
@@ -154,27 +157,27 @@ namespace tag_final_assigment
 
             if (portal1rect.Contains(pigLocation))
             {
-                pigLocation.X = 1100;
-                pigLocation.Y = 40;
+                pigLocation.X = 450;
+                pigLocation.Y = 170;
                
             }
             if (portal2rect.Contains(samLocation))
             {
-                samLocation.X = 110;
-                samLocation.Y = 25;
+                samLocation.X = 450;
+                samLocation.Y = 170;
               
             }
 
             if (portal2rect.Contains(pigLocation))
             {
-                pigLocation.X = 110;
-                pigLocation.Y = 25;
+                pigLocation.X = 450;
+                pigLocation.Y = 170;
 
             }
             if (portal1rect.Contains(samLocation))
             {
-                samLocation.X = 1100;
-                samLocation.Y = 40;
+                samLocation.X = 450;
+                samLocation.Y = 170;
 
             }
 
@@ -281,14 +284,12 @@ namespace tag_final_assigment
                 
                         
             }
-            if (pigLocation.Intersects(samLocation))
-            {
-                pigLocation.Offset(pigSpeed);
-            }
-            if (samLocation.Intersects(pigLocation))
-            {
-                pigLocation.Offset(samSpeed);
-            }
+            //if (pigLocation.Intersects(samLocation))
+            //{
+            //    pigLocation.Offset(-pigSpeed); 
+            //    samLocation.Offset(-samSpeed);
+            //}
+           
 
 
 
@@ -303,6 +304,15 @@ namespace tag_final_assigment
                 trianglelocation.X = samLocation.X + 0;
                 trianglelocation.Y = samLocation.Y + -30;
 
+            }
+            
+            {
+                seconds += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (seconds > 2)
+                {
+                    seconds = 0f;
+
+                }
             }
 
 
@@ -335,7 +345,7 @@ namespace tag_final_assigment
             _spriteBatch.Draw(portaltexture, portal2rect, Color.White);
             _spriteBatch.Draw(triangletexture, trianglelocation, Color.White);
             _spriteBatch.Draw(bushtexture,bushrect, Color.White);
-            _spriteBatch.DrawString(text,"text",new Vector2(350,830),Color.White);
+            _spriteBatch.DrawString(text,"00",new Vector2(500,850),Color.Black);
 
             foreach (Rectangle barrier in wall)
                 _spriteBatch.Draw(walltexture, barrier, Color.Red);
