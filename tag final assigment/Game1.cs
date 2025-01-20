@@ -16,6 +16,7 @@ namespace tag_final_assigment
         Texture2D walltexture;
         string whosit;
         float seconds;
+        float gametimer;
       
         Texture2D portaltexture;
         Texture2D bushtexture;
@@ -61,6 +62,7 @@ namespace tag_final_assigment
             samLocation = new Rectangle(110, 25, 40, 40);
             groundRect = new Rectangle(0, 825, 1250, 75);
             seconds = 0;
+            gametimer = 0;
             window = new Rectangle(0, 0, 1250, 900);
             wall1rect = new Rectangle(0, 0, -0, 1250);
             wall2rect = new Rectangle(5, -0, 1250, 10);
@@ -129,6 +131,8 @@ namespace tag_final_assigment
         {
             this.Window.Title = $"x = {mouseState.X}, y = {mouseState.Y}";
             mouseState = Mouse.GetState();
+            seconds += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            gametimer +=(float)gameTime.ElapsedGameTime.TotalSeconds;
             pigSpeed = new Vector2();
             samSpeed = new Vector2();
             keyboardState = Keyboard.GetState();
@@ -273,8 +277,9 @@ namespace tag_final_assigment
 
             }
             
-            if (pigLocation.Intersects(samLocation))
+            if (pigLocation.Intersects(samLocation) && seconds >=2)
             {
+                seconds = 0;
                 if (whosit == "pig")
                     whosit = "sam";
                 else
@@ -306,14 +311,10 @@ namespace tag_final_assigment
 
             }
             
-            {
-                seconds += (float)gameTime.ElapsedGameTime.TotalSeconds;
-                if (seconds > 2)
-                {
-                    seconds = 0f;
-
-                }
-            }
+            
+               
+               
+            
 
 
 
@@ -345,7 +346,7 @@ namespace tag_final_assigment
             _spriteBatch.Draw(portaltexture, portal2rect, Color.White);
             _spriteBatch.Draw(triangletexture, trianglelocation, Color.White);
             _spriteBatch.Draw(bushtexture,bushrect, Color.White);
-            _spriteBatch.DrawString(text,"00",new Vector2(500,850),Color.Black);
+            _spriteBatch.DrawString(text,gametimer.ToString(),new Vector2(500,850),Color.Black);
 
             foreach (Rectangle barrier in wall)
                 _spriteBatch.Draw(walltexture, barrier, Color.Red);
