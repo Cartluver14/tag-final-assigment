@@ -10,14 +10,14 @@ namespace tag_final_assigment
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         KeyboardState keyboardState;
-        MouseState mouseState;  
+        MouseState mouseState;
         Texture2D pigTexture, pigLeftTexture, pigRightTexture, pigUpTexture, pigDownTexture;
         Texture2D samTexture, samLeftTexture, samRightTexture, samUpTexture, samDowntexture;
         Texture2D walltexture;
         string whosit;
         float seconds;
         float gametimer;
-      
+
         Texture2D portaltexture;
         Texture2D bushtexture;
         Texture2D backgroundtexture;
@@ -27,14 +27,14 @@ namespace tag_final_assigment
         Rectangle textboxrect;
         Rectangle backgroundrect;
         Rectangle bushrect;
-        Rectangle wall1rect,wall2rect,wall3rect,wall4rect; 
+        Rectangle wall1rect, wall2rect, wall3rect, wall4rect;
         Rectangle samLocation;
         Rectangle trianglelocation;
-        Rectangle portal1rect,portal2rect;
+        Rectangle portal1rect, portal2rect;
         List<Rectangle> wall;
         SpriteFont text;
 
-       
+
         Vector2 pigSpeed;
         Vector2 trianglespeed;
         Vector2 samSpeed;
@@ -48,12 +48,12 @@ namespace tag_final_assigment
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-           
+
         }
 
         protected override void Initialize()
         {
-            backgroundrect = new Rectangle(0,0,1250,900);
+            backgroundrect = new Rectangle(0, 0, 1250, 900);
             trianglelocation = new Rectangle(1000, 35, 50, 50);
             pigLocation = new Rectangle(1100, 40, 50, 50);
             bushrect = new Rectangle(450, 170, 300, 300);
@@ -62,7 +62,7 @@ namespace tag_final_assigment
             samLocation = new Rectangle(110, 25, 40, 40);
             groundRect = new Rectangle(0, 825, 1250, 75);
             seconds = 0;
-            gametimer = 0;
+            gametimer = 60;
             window = new Rectangle(0, 0, 1250, 900);
             wall1rect = new Rectangle(0, 0, -0, 1250);
             wall2rect = new Rectangle(5, -0, 1250, 10);
@@ -70,7 +70,7 @@ namespace tag_final_assigment
             wall4rect = new Rectangle(60, 100, 200, 10);
             wall = new List<Rectangle>();
             wall.Add(new Rectangle(985, 105, 200, 10));
-            wall.Add(new Rectangle(260,250, 650, 10));
+            wall.Add(new Rectangle(260, 250, 650, 10));
             wall.Add(new Rectangle(0, 250, 150, 10));
             wall.Add(new Rectangle(1030, 250, 300, 10));
             wall.Add(new Rectangle(60, 400, 150, 10));
@@ -116,7 +116,7 @@ namespace tag_final_assigment
 
             samTexture = samRightTexture;
 
-            
+
 
 
 
@@ -132,29 +132,29 @@ namespace tag_final_assigment
             this.Window.Title = $"x = {mouseState.X}, y = {mouseState.Y}";
             mouseState = Mouse.GetState();
             seconds += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            gametimer +=(float)gameTime.ElapsedGameTime.TotalSeconds;
+            gametimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
             pigSpeed = new Vector2();
             samSpeed = new Vector2();
             keyboardState = Keyboard.GetState();
-            pigSpeed = Vector2.Zero; 
-            if (keyboardState.IsKeyDown(Keys.Up)) 
-            { 
+            pigSpeed = Vector2.Zero;
+            if (keyboardState.IsKeyDown(Keys.Up))
+            {
                 pigSpeed.Y -= 6;
                 pigTexture = pigUpTexture;
             }
-            if (keyboardState.IsKeyDown(Keys.Down)) 
-            { 
-                pigSpeed.Y += 6; 
+            if (keyboardState.IsKeyDown(Keys.Down))
+            {
+                pigSpeed.Y += 6;
                 pigTexture = pigDownTexture;
             }
-            if (keyboardState.IsKeyDown(Keys.Left)) 
-            { 
-                pigSpeed.X -= 6; 
+            if (keyboardState.IsKeyDown(Keys.Left))
+            {
+                pigSpeed.X -= 6;
                 pigTexture = pigLeftTexture;
             }
-            if (keyboardState.IsKeyDown(Keys.Right)) 
-            { 
-                pigSpeed.X += 6; 
+            if (keyboardState.IsKeyDown(Keys.Right))
+            {
+                pigSpeed.X += 6;
                 pigTexture = pigRightTexture;
             }
             pigLocation.Offset(pigSpeed);
@@ -163,13 +163,13 @@ namespace tag_final_assigment
             {
                 pigLocation.X = 450;
                 pigLocation.Y = 170;
-               
+
             }
             if (portal2rect.Contains(samLocation))
             {
                 samLocation.X = 450;
                 samLocation.Y = 170;
-              
+
             }
 
             if (portal2rect.Contains(pigLocation))
@@ -194,18 +194,18 @@ namespace tag_final_assigment
                 samTexture = samUpTexture;
             }
             if (keyboardState.IsKeyDown(Keys.S))
-            { 
+            {
                 samSpeed.Y += 6;
                 samTexture = samDowntexture;
             }
-            if (keyboardState.IsKeyDown(Keys.A)) 
-            { 
-                samSpeed.X -= 6; 
+            if (keyboardState.IsKeyDown(Keys.A))
+            {
+                samSpeed.X -= 6;
                 samTexture = samLeftTexture;
             }
-            if (keyboardState.IsKeyDown(Keys.D)) 
-            { 
-                samSpeed.X += 6; 
+            if (keyboardState.IsKeyDown(Keys.D))
+            {
+                samSpeed.X += 6;
                 samTexture = samRightTexture;
             }
             samLocation.Offset(samSpeed);
@@ -276,8 +276,8 @@ namespace tag_final_assigment
                 }
 
             }
-            
-            if (pigLocation.Intersects(samLocation) && seconds >=2)
+
+            if (pigLocation.Intersects(samLocation) && seconds >= 2)
             {
                 seconds = 0;
                 if (whosit == "pig")
@@ -286,15 +286,15 @@ namespace tag_final_assigment
                     whosit = "pig";
 
 
-                
-                        
+
+
             }
             //if (pigLocation.Intersects(samLocation))
             //{
             //    pigLocation.Offset(-pigSpeed); 
             //    samLocation.Offset(-samSpeed);
             //}
-           
+
 
 
 
@@ -311,10 +311,11 @@ namespace tag_final_assigment
 
             }
             
-            
-               
-               
-            
+
+
+
+
+
 
 
 
@@ -338,15 +339,15 @@ namespace tag_final_assigment
             _spriteBatch.Draw(pigTexture, pigLocation, Color.White);
             _spriteBatch.Draw(samTexture, samLocation, Color.White);
             _spriteBatch.Draw(groundTexture, groundRect, Color.White);
-            _spriteBatch.Draw(walltexture,  wall1rect, Color.White); 
-            _spriteBatch.Draw(walltexture,wall2rect, Color.White);
-            _spriteBatch.Draw(walltexture,wall3rect, Color.White);
-            _spriteBatch.Draw(walltexture,wall4rect, Color.Red);
-            _spriteBatch.Draw(portaltexture,portal1rect, Color.White);
+            _spriteBatch.Draw(walltexture, wall1rect, Color.White);
+            _spriteBatch.Draw(walltexture, wall2rect, Color.White);
+            _spriteBatch.Draw(walltexture, wall3rect, Color.White);
+            _spriteBatch.Draw(walltexture, wall4rect, Color.Red);
+            _spriteBatch.Draw(portaltexture, portal1rect, Color.White);
             _spriteBatch.Draw(portaltexture, portal2rect, Color.White);
             _spriteBatch.Draw(triangletexture, trianglelocation, Color.White);
-            _spriteBatch.Draw(bushtexture,bushrect, Color.White);
-            _spriteBatch.DrawString(text,gametimer.ToString(),new Vector2(500,850),Color.Black);
+            _spriteBatch.Draw(bushtexture, bushrect, Color.White);
+            _spriteBatch.DrawString(text, gametimer.ToString("0"), new Vector2(500, 850), Color.Black);
 
             foreach (Rectangle barrier in wall)
                 _spriteBatch.Draw(walltexture, barrier, Color.Red);
