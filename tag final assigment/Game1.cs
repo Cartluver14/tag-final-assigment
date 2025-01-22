@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
@@ -7,13 +8,22 @@ namespace tag_final_assigment
 {
     public class Game1 : Game
     {
+       
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        KeyboardState keyboardState;
+        enum Screen
+        {
+            start,
+            Game
+        }
+        KeyboardState keyboardState, previosKeyboradstate;
+        
         MouseState mouseState;
         Texture2D pigTexture, pigLeftTexture, pigRightTexture, pigUpTexture, pigDownTexture;
         Texture2D samTexture, samLeftTexture, samRightTexture, samUpTexture, samDowntexture;
         Texture2D walltexture;
+        SoundEffect music;
+        bool sound;
         string whosit;
         float seconds;
         float gametimer;
@@ -23,8 +33,10 @@ namespace tag_final_assigment
         Texture2D backgroundtexture;
         Texture2D triangletexture;
         Texture2D textboxtexture;
+        Texture2D startscreentexture;
         Rectangle pigLocation;
         Rectangle textboxrect;
+        Rectangle startscreenrect;
         Rectangle backgroundrect;
         Rectangle bushrect;
         Rectangle wall1rect, wall2rect, wall3rect, wall4rect;
@@ -34,6 +46,7 @@ namespace tag_final_assigment
         List<Rectangle> wall;
         SpriteFont text;
 
+        Screen screen;
 
         Vector2 pigSpeed;
         Vector2 trianglespeed;
@@ -53,6 +66,7 @@ namespace tag_final_assigment
 
         protected override void Initialize()
         {
+            screen = Screen.start;
             backgroundrect = new Rectangle(0, 0, 1250, 900);
             trianglelocation = new Rectangle(1000, 35, 50, 50);
             pigLocation = new Rectangle(1100, 40, 50, 50);
@@ -70,7 +84,8 @@ namespace tag_final_assigment
             wall4rect = new Rectangle(60, 100, 200, 10);
             wall = new List<Rectangle>();
             wall.Add(new Rectangle(985, 105, 200, 10));
-            wall.Add(new Rectangle(260, 250, 650, 10));
+            wall.Add(new Rectangle(260, 250, 300, 10));
+            wall.Add(new Rectangle(670, 250, 260, 10));
             wall.Add(new Rectangle(0, 250, 150, 10));
             wall.Add(new Rectangle(1030, 250, 300, 10));
             wall.Add(new Rectangle(60, 400, 150, 10));
@@ -104,6 +119,9 @@ namespace tag_final_assigment
             triangletexture = Content.Load<Texture2D>("triangle");
             backgroundtexture = Content.Load<Texture2D>("background");
             text = Content.Load<SpriteFont>("Text");
+            startscreentexture = Content.Load<Texture2D>("start screen");
+            music = Content.Load<SoundEffect>("music");
+            
 
             // backgroundtexture = Content
 
@@ -129,6 +147,9 @@ namespace tag_final_assigment
 
         protected override void Update(GameTime gameTime)
         {
+           
+
+
             this.Window.Title = $"x = {mouseState.X}, y = {mouseState.Y}";
             mouseState = Mouse.GetState();
             seconds += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -310,6 +331,11 @@ namespace tag_final_assigment
                 trianglelocation.Y = samLocation.Y + -30;
 
             }
+            if (gametimer <= 0)
+            {
+                Exit();
+            }
+               
             
 
 
@@ -335,26 +361,49 @@ namespace tag_final_assigment
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
-            _spriteBatch.Draw(backgroundtexture, backgroundrect, Color.White);
-            _spriteBatch.Draw(pigTexture, pigLocation, Color.White);
-            _spriteBatch.Draw(samTexture, samLocation, Color.White);
-            _spriteBatch.Draw(groundTexture, groundRect, Color.White);
-            _spriteBatch.Draw(walltexture, wall1rect, Color.White);
-            _spriteBatch.Draw(walltexture, wall2rect, Color.White);
-            _spriteBatch.Draw(walltexture, wall3rect, Color.White);
-            _spriteBatch.Draw(walltexture, wall4rect, Color.Red);
-            _spriteBatch.Draw(portaltexture, portal1rect, Color.White);
-            _spriteBatch.Draw(portaltexture, portal2rect, Color.White);
-            _spriteBatch.Draw(triangletexture, trianglelocation, Color.White);
-            _spriteBatch.Draw(bushtexture, bushrect, Color.White);
-            _spriteBatch.DrawString(text, gametimer.ToString("0"), new Vector2(500, 850), Color.Black);
+            if (screen == Screen.start)
+            {
+                if(keyboardState.IsKeyDown(Keys.Enter))
+                
+                    screen = Screen.Game;
 
-            foreach (Rectangle barrier in wall)
-                _spriteBatch.Draw(walltexture, barrier, Color.Red);
+                
+                if(sound == false)
+                {
+                    music.Play();
+                    sound = true;
+                }
+                _spriteBatch.Draw(startscreentexture, window, Color.White);
+
+            }
+            else
+            {
+
+
+
+                _spriteBatch.Draw(backgroundtexture, backgroundrect, Color.White);
+                _spriteBatch.Draw(pigTexture, pigLocation, Color.White);
+                _spriteBatch.Draw(samTexture, samLocation, Color.White);
+                _spriteBatch.Draw(groundTexture, groundRect, Color.White);
+                _spriteBatch.Draw(walltexture, wall1rect, Color.White);
+                _spriteBatch.Draw(walltexture, wall2rect, Color.White);
+                _spriteBatch.Draw(walltexture, wall3rect, Color.White);
+                _spriteBatch.Draw(walltexture, wall4rect, Color.Red);
+                _spriteBatch.Draw(portaltexture, portal1rect, Color.White);
+                _spriteBatch.Draw(portaltexture, portal2rect, Color.White);
+                _spriteBatch.Draw(triangletexture, trianglelocation, Color.White);
+                _spriteBatch.Draw(bushtexture, bushrect, Color.White);
+
+                _spriteBatch.DrawString(text, gametimer.ToString("0"), new Vector2(575, 20), Color.Black);
+
+                foreach (Rectangle barrier in wall)
+                    _spriteBatch.Draw(walltexture, barrier, Color.Red);
+                
+
+
+                base.Draw(gameTime);
+            }
             _spriteBatch.End();
-
-
-            base.Draw(gameTime);
         }
     }
 }
