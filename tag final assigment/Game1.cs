@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 
 namespace tag_final_assigment
 {
@@ -14,7 +15,8 @@ namespace tag_final_assigment
         enum Screen
         {
             start,
-            Game
+            Game,
+            Exit
         }
         KeyboardState keyboardState, previosKeyboradstate;
         
@@ -34,9 +36,11 @@ namespace tag_final_assigment
         Texture2D triangletexture;
         Texture2D textboxtexture;
         Texture2D startscreentexture;
+        Texture2D exitscreentexture;
         Rectangle pigLocation;
         Rectangle textboxrect;
         Rectangle startscreenrect;
+        Rectangle exitscreenrect;
         Rectangle backgroundrect;
         Rectangle bushrect;
         Rectangle wall1rect, wall2rect, wall3rect, wall4rect;
@@ -67,6 +71,7 @@ namespace tag_final_assigment
         protected override void Initialize()
         {
             screen = Screen.start;
+           
             backgroundrect = new Rectangle(0, 0, 1250, 900);
             trianglelocation = new Rectangle(1000, 35, 50, 50);
             pigLocation = new Rectangle(1100, 40, 50, 50);
@@ -76,7 +81,7 @@ namespace tag_final_assigment
             samLocation = new Rectangle(110, 25, 40, 40);
             groundRect = new Rectangle(0, 825, 1250, 75);
             seconds = 0;
-            gametimer = 60;
+            gametimer = 5;
             window = new Rectangle(0, 0, 1250, 900);
             wall1rect = new Rectangle(0, 0, -0, 1250);
             wall2rect = new Rectangle(5, -0, 1250, 10);
@@ -121,6 +126,7 @@ namespace tag_final_assigment
             text = Content.Load<SpriteFont>("Text");
             startscreentexture = Content.Load<Texture2D>("start screen");
             music = Content.Load<SoundEffect>("music");
+            exitscreentexture = Content.Load<Texture2D>("exit screen");
             
 
             // backgroundtexture = Content
@@ -147,194 +153,211 @@ namespace tag_final_assigment
 
         protected override void Update(GameTime gameTime)
         {
-           
-
-
-            this.Window.Title = $"x = {mouseState.X}, y = {mouseState.Y}";
             mouseState = Mouse.GetState();
-            seconds += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            gametimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
-            pigSpeed = new Vector2();
-            samSpeed = new Vector2();
             keyboardState = Keyboard.GetState();
-            pigSpeed = Vector2.Zero;
-            if (keyboardState.IsKeyDown(Keys.Up))
-            {
-                pigSpeed.Y -= 6;
-                pigTexture = pigUpTexture;
-            }
-            if (keyboardState.IsKeyDown(Keys.Down))
-            {
-                pigSpeed.Y += 6;
-                pigTexture = pigDownTexture;
-            }
-            if (keyboardState.IsKeyDown(Keys.Left))
-            {
-                pigSpeed.X -= 6;
-                pigTexture = pigLeftTexture;
-            }
-            if (keyboardState.IsKeyDown(Keys.Right))
-            {
-                pigSpeed.X += 6;
-                pigTexture = pigRightTexture;
-            }
-            pigLocation.Offset(pigSpeed);
-
-            if (portal1rect.Contains(pigLocation))
-            {
-                pigLocation.X = 450;
-                pigLocation.Y = 170;
-
-            }
-            if (portal2rect.Contains(samLocation))
-            {
-                samLocation.X = 450;
-                samLocation.Y = 170;
-
-            }
-
-            if (portal2rect.Contains(pigLocation))
-            {
-                pigLocation.X = 450;
-                pigLocation.Y = 170;
-
-            }
-            if (portal1rect.Contains(samLocation))
-            {
-                samLocation.X = 450;
-                samLocation.Y = 170;
-
-            }
 
 
+            if (screen == Screen.start)
+            {
+                if (keyboardState.IsKeyDown(Keys.Enter))
 
-            samSpeed = Vector2.Zero;
-            if (keyboardState.IsKeyDown(Keys.W))
-            {
-                samSpeed.Y -= 6;
-                samTexture = samUpTexture;
+                    screen = Screen.Game;
             }
-            if (keyboardState.IsKeyDown(Keys.S))
-            {
-                samSpeed.Y += 6;
-                samTexture = samDowntexture;
-            }
-            if (keyboardState.IsKeyDown(Keys.A))
-            {
-                samSpeed.X -= 6;
-                samTexture = samLeftTexture;
-            }
-            if (keyboardState.IsKeyDown(Keys.D))
-            {
-                samSpeed.X += 6;
-                samTexture = samRightTexture;
-            }
-            samLocation.Offset(samSpeed);
-
-            if (pigLocation.Intersects(groundRect))
-            {
-                pigLocation.Offset(-pigSpeed);
-            }
-            if (samLocation.Intersects(groundRect))
+            else if (screen == Screen.Game)
             {
 
-                samLocation.Offset(-samSpeed);
-            }
-            if (pigLocation.Intersects(wall1rect))
-            {
-                pigLocation.Offset(-pigSpeed);
-            }
-            if (samLocation.Intersects(wall1rect))
-            {
+                this.Window.Title = $"x = {mouseState.X}, y = {mouseState.Y}";
+                seconds += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                gametimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                pigSpeed = new Vector2();
+                samSpeed = new Vector2();
+                pigSpeed = Vector2.Zero;
+                if (keyboardState.IsKeyDown(Keys.Up))
+                {
+                    pigSpeed.Y -= 7
+                        ;
+                    pigTexture = pigUpTexture;
+                }
+                if (keyboardState.IsKeyDown(Keys.Down))
+                {
+                    pigSpeed.Y += 7;
+                    pigTexture = pigDownTexture;
+                }
+                if (keyboardState.IsKeyDown(Keys.Left))
+                {
+                    pigSpeed.X -= 7;
+                    pigTexture = pigLeftTexture;
+                }
+                if (keyboardState.IsKeyDown(Keys.Right))
+                {
+                    pigSpeed.X += 7;
+                    pigTexture = pigRightTexture;
+                }
+                pigLocation.Offset(pigSpeed);
 
-                samLocation.Offset(-samSpeed);
-            }
+                if (portal1rect.Contains(pigLocation))
+                {
+                    pigLocation.X = 540;
+                    pigLocation.Y = 350;
+
+                }
+                if (portal2rect.Contains(samLocation))
+                {
+                    samLocation.X = 540;
+                    samLocation.Y = 350;
+
+                }
+
+                if (portal2rect.Contains(pigLocation))
+                {
+                    pigLocation.X = 540;
+                    pigLocation.Y = 350;
+
+                }
+                if (portal1rect.Contains(samLocation))
+                {
+                    samLocation.X = 540;
+                    samLocation.Y = 350;
+
+                }
 
 
 
+                samSpeed = Vector2.Zero;
+                if (keyboardState.IsKeyDown(Keys.W))
+                {
+                    samSpeed.Y -= 7;
+                    samTexture = samUpTexture;
+                }
+                if (keyboardState.IsKeyDown(Keys.S))
+                {
+                    samSpeed.Y += 7;
+                    samTexture = samDowntexture;
+                }
+                if (keyboardState.IsKeyDown(Keys.A))
+                {
+                    samSpeed.X -= 7;
+                    samTexture = samLeftTexture;
+                }
+                if (keyboardState.IsKeyDown(Keys.D))
+                {
+                    samSpeed.X += 7;
+                    samTexture = samRightTexture;
+                }
+                samLocation.Offset(samSpeed);
 
-            if (pigLocation.Intersects(wall2rect))
-            {
-                pigLocation.Offset(-pigSpeed);
-            }
-            if (samLocation.Intersects(wall2rect))
-            {
-
-                samLocation.Offset(-samSpeed);
-            }
-
-            if (pigLocation.Intersects(wall3rect))
-            {
-                pigLocation.Offset(-pigSpeed);
-            }
-            if (samLocation.Intersects(wall3rect))
-            {
-
-                samLocation.Offset(-samSpeed);
-            }
-            if (pigLocation.Intersects(wall4rect))
-            {
-                pigLocation.Offset(-pigSpeed);
-            }
-            if (samLocation.Intersects(wall4rect))
-            {
-
-                samLocation.Offset(-samSpeed);
-            }
-            for (int i = 0; i < wall.Count; i++)
-            {
-                if (pigLocation.Intersects(wall[i]))
+                if (pigLocation.Intersects(groundRect))
                 {
                     pigLocation.Offset(-pigSpeed);
                 }
-
-            }
-            for (int i = 0; i < wall.Count; i++)
-            {
-                if (samLocation.Intersects(wall[i]))
+                if (samLocation.Intersects(groundRect))
                 {
+
+                    samLocation.Offset(-samSpeed);
+                }
+                if (pigLocation.Intersects(wall1rect))
+                {
+                    pigLocation.Offset(-pigSpeed);
+                }
+                if (samLocation.Intersects(wall1rect))
+                {
+
                     samLocation.Offset(-samSpeed);
                 }
 
-            }
 
-            if (pigLocation.Intersects(samLocation) && seconds >= 2)
-            {
-                seconds = 0;
+
+
+                if (pigLocation.Intersects(wall2rect))
+                {
+                    pigLocation.Offset(-pigSpeed);
+                }
+                if (samLocation.Intersects(wall2rect))
+                {
+
+                    samLocation.Offset(-samSpeed);
+                }
+
+                if (pigLocation.Intersects(wall3rect))
+                {
+                    pigLocation.Offset(-pigSpeed);
+                }
+                if (samLocation.Intersects(wall3rect))
+                {
+
+                    samLocation.Offset(-samSpeed);
+                }
+                if (pigLocation.Intersects(wall4rect))
+                {
+                    pigLocation.Offset(-pigSpeed);
+                }
+                if (samLocation.Intersects(wall4rect))
+                {
+
+                    samLocation.Offset(-samSpeed);
+                }
+                for (int i = 0; i < wall.Count; i++)
+                {
+                    if (pigLocation.Intersects(wall[i]))
+                    {
+                        pigLocation.Offset(-pigSpeed);
+                    }
+
+                }
+                for (int i = 0; i < wall.Count; i++)
+                {
+                    if (samLocation.Intersects(wall[i]))
+                    {
+                        samLocation.Offset(-samSpeed);
+                    }
+
+                }
+
+                if (pigLocation.Intersects(samLocation) && seconds >= 2)
+                {
+                    seconds = 0;
+                    if (whosit == "pig")
+                        whosit = "sam";
+                    else
+                        whosit = "pig";
+
+
+
+
+                }
+                //if (pigLocation.Intersects(samLocation))
+                //{
+                //    pigLocation.Offset(-pigSpeed); 
+                //    samLocation.Offset(-samSpeed);
+                //}
+
+
+
+
+
                 if (whosit == "pig")
-                    whosit = "sam";
-                else
-                    whosit = "pig";
+                {
+                    trianglelocation.X = pigLocation.X + 0;
+                    trianglelocation.Y = pigLocation.Y + -30;
+                }
+                else if (whosit == "sam")
+                {
+                    trianglelocation.X = samLocation.X + 0;
+                    trianglelocation.Y = samLocation.Y + -30;
+
+                }
+                if (gametimer <= 0)
+                {
+                    screen = Screen.Exit;
+                }
 
 
 
 
-            }
-            //if (pigLocation.Intersects(samLocation))
-            //{
-            //    pigLocation.Offset(-pigSpeed); 
-            //    samLocation.Offset(-samSpeed);
-            //}
-
-
-
-
-
-            if (whosit == "pig")
-            {
-                trianglelocation.X = pigLocation.X + 0;
-                trianglelocation.Y = pigLocation.Y + -30;
-            }
-            else if (whosit == "sam")
-            {
-                trianglelocation.X = samLocation.X + 0;
-                trianglelocation.Y = samLocation.Y + -30;
 
             }
-            if (gametimer <= 0)
-            {
-                Exit();
-            }
+
+            
                
             
 
@@ -363,9 +386,7 @@ namespace tag_final_assigment
             _spriteBatch.Begin();
             if (screen == Screen.start)
             {
-                if(keyboardState.IsKeyDown(Keys.Enter))
                 
-                    screen = Screen.Game;
 
                 
                 if(sound == false)
@@ -376,7 +397,7 @@ namespace tag_final_assigment
                 _spriteBatch.Draw(startscreentexture, window, Color.White);
 
             }
-            else
+            else if (screen == Screen.Game)
             {
 
 
@@ -398,12 +419,18 @@ namespace tag_final_assigment
 
                 foreach (Rectangle barrier in wall)
                     _spriteBatch.Draw(walltexture, barrier, Color.Red);
+
                 
 
-
-                base.Draw(gameTime);
             }
+            else if (screen == Screen.Exit)
+            {
+                _spriteBatch.Draw(exitscreentexture,window , Color.White);
+            }
+
             _spriteBatch.End();
+            base.Draw(gameTime);
+
         }
     }
 }
